@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cars</title>
+</head>
+<body>
+<h1>Table Cars</h1>
+<table>
+    <tr>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Color</th>
+    </tr>
+    <tr>
+    <tr th:each="car : ${cars}">
+        <td th:utext="${car.getBrand()}"></td>
+        <td th:utext="${car.getModel()}"></td>
+        <td th:utext="${car.getColor()}"></td>
+    </tr>
+</table>
+<hr>
+<button name="run_script" onclick="window.location.href='http://localhost:8088/spring_mvc/cars?count=1';">1</button>
+<button name="run_script" onclick="window.location.href='http://localhost:8088/spring_mvc/cars?count=2';">2</button>
+<button name="run_script" onclick="window.location.href='http://localhost:8088/spring_mvc/cars?count=3';">3</button>
+<button name="run_script" onclick="window.location.href='http://localhost:8088/spring_mvc/cars?count=4';">4</button>
+<button name="run_script" onclick="window.location.href='http://localhost:8088/spring_mvc/cars?count=5';">5</button>
+<button name="run_script" onclick="window.location.href='http://localhost:8088/spring_mvc/cars';">All</button>
+
+</body>
+
+<style type="text/css">
+    button[name="run_script"] {
+        border: none;
+        border-radius: 10px;
+        padding: 9px 20px;
+        background: #FFB6C1	;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: black;
+    }
+    button[name="run_script"]:hover {
+        background: #FF69B4;
+    }
+</style>
+</html>
