@@ -1,42 +1,41 @@
 package web.dao;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import web.model.User;
 
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao {
 
-   @Autowired
-   private SessionFactory sessionFactory;
+   @PersistenceContext
+   private EntityManager entityManager;
 
    @Override
-   public void add(User user) {
-      sessionFactory.getCurrentSession().merge(user);
+   public void saveUser(User user) {
+      entityManager.merge(user);
+      entityManager.flush();
    }
 
    @Override
-   public User getUserById(Long id){
-      TypedQuery<User> query = sessionFactory.getCurrentSession()
-              .createQuery("from User WHERE id = :id")
-              .setParameter("id", id);
-      return query.getSingleResult();}
+   public User getUserById(Long id) {
+      return entityManager.find(User.class, id);
+   }
+
 
    @Override
-   public void delete(long id){
-      sessionFactory.getCurrentSession()
-              .createQuery("DELETE from User WHERE id = :id")
-              .setParameter("id", id)
-              .executeUpdate();
+   public void deleteUser(long id) throws NullPointerException {
+      User user = getUserById(id);
+      if (user == null) {
+         throw new NullPointerException("User not found");
+      }
+      entityManager.remove(user);
+      entityManager.flush();
    }
    @Override
    @SuppressWarnings("unchecked")
-   public List<User> listUsers() {
-      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
-      return query.getResultList();
+   public List<User> getAllUsers() {
+      return entityManager.createQuery("from User", User.class).getResultList();
    }
 }

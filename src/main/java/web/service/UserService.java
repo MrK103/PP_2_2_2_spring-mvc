@@ -10,10 +10,10 @@ public interface UserService {
     User getUserById(Long id);
 
     @Transactional
-    void delete(Long id);
+    void deleteUser(Long id);
 
-    void add(User user);
+    void saveUser(User user);
 
-    List<User> listUsers();
+    List<User> getAllUsers();
 
 }

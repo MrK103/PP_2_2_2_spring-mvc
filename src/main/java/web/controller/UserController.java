@@ -18,7 +18,7 @@ public class UserController {
 
     @GetMapping("/user")
     public String showUsers(@RequestParam(defaultValue = "0") int count, Model model) {
-        model.addAttribute("users", userService.listUsers());
+        model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
 
@@ -29,13 +29,15 @@ public class UserController {
 
     @PostMapping("/user-create")
     private String saveUser(User user){
-        userService.add(user);
+       if (!((user.getFirstName() + user.getLastName())).equals("")){
+           userService.saveUser(user);
+       }
         return "redirect:/user";
     }
 
     @GetMapping("user-delete/{id}")
     public String deleteUser(@PathVariable("id") Long id){
-        userService.delete(id);
+        userService.deleteUser(id);
         return "redirect:/user";
     }
 
@@ -49,7 +51,7 @@ public class UserController {
     @PostMapping("/user-update")
     public String updateUser(User user){
        //merge
-        userService.add(user);
+        userService.saveUser(user);
         return "redirect:/user";
     }
 }
